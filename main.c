@@ -199,6 +199,7 @@ void supprimer_tache(Liste **head) {
 			return;
 		}
 		prev = temp;
+		temp = temp->next;
 		index++;
 	}
 	
