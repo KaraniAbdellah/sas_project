@@ -30,14 +30,17 @@ void menu() {
 	
 }
 
+
 // Affiches Des Information sur la tache
 void affiche_info(Liste *tache) {
+
 	printf("titre: %s\n", tache->data.titre);
 	printf("description: %s\n", tache->data.description);
 	printf("status: %s\n", tache->data.status);
 	printf("priorite: %s\n", tache->data.priorite);
 	printf("Date: %d/%d/%d\n", tache->data.date.jour, tache->data.date.mois, tache->data.date.annes);
 	printf("-------------------------\n");
+	
 }
 
 
@@ -67,36 +70,38 @@ void remplacer_spaces(char *str) {
 	
 }
 
+
 // Ajouter les informations dans un fichier
-void ajouter_tache_fichier(Liste *tache) {
-	
+void ajouter_tache_fichier(Liste *head) {
+
 	FILE *p_file = fopen("tache.txt", "a");
 	if (p_file == NULL) {
-		printf("Error d'ajout a un fichier\n");
+		printf("Error d'ajouter a un fichier\n");
 		return;
 	}
+
+	Liste *temp = head;
+	while (temp != NULL) {
+		
+		remplacer_spaces(temp->data.titre);
+		remplacer_spaces(temp->data.description);
+		remplacer_spaces(temp->data.status);
+		remplacer_spaces(temp->data.priorite);
+		
+		fprintf(p_file, "%s %s %s %s %d %d %d\n", temp->data.titre, temp->data.description,
+		   temp->data.status, temp->data.priorite, temp->data.date.jour, temp->data.date.mois, temp->data.date.annes);
 	
-	remplacer_spaces(tache->data.titre);
-	remplacer_spaces(tache->data.description);
-	remplacer_spaces(tache->data.status);
-	remplacer_spaces(tache->data.priorite);
-	
-	fprintf(p_file, "%s %s %s %s %d %d %d", tache->data.titre, tache->data.description,
-	tache->data.status, tache->data.priorite, tache->data.date.jour, tache->data.date.mois, tache->data.date.annes);
+		temp = temp->next;		
+		
+	}	
+
+	fclose(p_file);
 	
 }
 
-// Ajouter Les Taches
-void ajouter_tache(Liste **head) {
-	
-	// cree un node dans la liste
-	Liste *n_node = (Liste *) malloc(sizeof(Liste));
-	if (n_node == NULL) {
-		printf("peut pas ajouter ce node\n");
-		return;
-	}
-	n_node->next = n_node->prev = NULL;
-	
+// demander des information
+void demander_info(Liste *n_node) {
+
 	printf("Enter le titre: ");
 	scanf("%[^\n]", n_node->data.titre); n_node->data.titre[19] = '\0';
 	getchar();
@@ -109,40 +114,71 @@ void ajouter_tache(Liste **head) {
 	printf("Enter le priorite: ");
 	scanf("%[^\n]", n_node->data.priorite); n_node->data.priorite[19] = '\0';
 	getchar();
-	printf("Enter la date (jour): ");
-	scanf("%d", &n_node->data.date.jour);
-
-	// get the year
+	
+	// obtenu actual year
 	time_t now = time(NULL);
     struct tm *t = localtime(&now);
-    
-	int annes = t->tm_year + 1970;
+	int annes = t->tm_year + 1900;
     int mois = t->tm_mon + 1;
+    int jour = t->tm_mday;
+	
+	do {
+		printf("Enter la date (jour): ");
+		scanf("%d", &n_node->data.date.jour);
+	} while (n_node->data.date.jour < jour);
 	
 	do {
 		printf("Enter la date (moin): ");
 		scanf("%d", &n_node->data.date.mois);
-	} while (n_node->data.date.mois < mois || n_node->data.date.mois <= 0);
+	} while (n_node->data.date.mois < mois || n_node->data.date.mois > 12);
     
 	do {
 		printf("Enter la date (annes): ");
 		scanf("%d", &n_node->data.date.annes);
 	} while (n_node->data.date.annes < annes);
 	
+
+}
+
+
+// Ajouter Dans La Liste
+void ajouter_liste(Liste **head, Liste *n_node) {
+	
 	if (*head == NULL) {
 		*head = n_node;
-		return;
+	} else {
+		Liste *temp = *head;
+		while (temp->next != NULL) {
+			temp = temp->next;
+		}
+		n_node->prev = temp;
+		temp->next = n_node;
 	}
 	
-	Liste *temp = *head;
-	while (temp->next != NULL) {
-		temp = temp->next;
+}
+
+// Cree une node dans la liste
+Liste *cree_node() {
+
+	Liste *n_node = (Liste *) malloc(sizeof(Liste));
+	if (n_node == NULL) {
+		printf("peut pas ajouter ce node\n");
+		exit(1);
 	}
-	n_node->prev = temp;
-	temp->next = n_node;
+	n_node->next = n_node->prev = NULL;
 	
-	// Ajouter la tache a un fichier
-	ajouter_tache_fichier(n_node);
+}
+
+// Ajouter Les Taches
+void ajouter_tache(Liste **head) {
+
+	// Cree un node dans la liste
+	Liste *n_node = cree_node();
+	
+	// Demande des information sur la tache
+	demander_info(n_node);
+	
+	ajouter_liste(head, n_node);
 	
 }
 
@@ -218,6 +254,7 @@ void modifier_tache(Liste **head) {
 		
 }
 
+
 // Supprimer une taches
 void supprimer_tache(Liste **head) {
 	
@@ -281,6 +318,7 @@ void filtrage_titre(Liste *head) {
 	
 }
 
+
 // filtrage des information par le status
 void filtrage_status(Liste *head) {
 
@@ -305,6 +343,7 @@ void filtrage_status(Liste *head) {
 	
 }
 
+
 // filtrage des information par le priorite
 void filtrage_priorite(Liste *head) {
 	
@@ -328,6 +367,7 @@ void filtrage_priorite(Liste *head) {
 	printf("\n");
 	
 }
+
 
 // filtrage des information par la date
 void filtrage_date(Liste *head) {
@@ -371,6 +411,7 @@ void menu_filtrage() {
 	
 }
 
+
 //  Filtrer les Taches
 void  filtrer_taches(Liste *head) {
 	
@@ -408,9 +449,39 @@ void  filtrer_taches(Liste *head) {
 }
 
 
+// obtenir les tache a partir du fihier
+void obtenir_taches(Liste **head) {
+	
+	FILE *p_file = fopen("tache.txt", "a");
+	if (p_file == NULL) {
+		printf("Error d'ouvrir le fichier\n");
+		return;
+	}
+
+	while (!feof(p_file)) {
+	
+		Liste *n_node = (Liste *) malloc(sizeof(Liste));
+		n_node->next = n_node->prev = NULL;
+		
+		fscanf(p_file, "%s %s %s %s %d %d %d\n", n_node->data.titre, n_node->data.description,
+		   n_node->data.status, n_node->data.priorite, &n_node->data.date.jour, &n_node->data.date.mois, &n_node->data.date.annes);
+		
+		ajouter_liste(head, n_node);
+		
+	}
+		
+	fclose(p_file);
+	
+}
+
+
 int main() {
 	
 	Liste *head = NULL;
+	
+	// obtenir les infomation sur les taches
+	obtenir_taches(&head);
+	
 	int choix;
 	do {
 		menu();
@@ -427,13 +498,17 @@ int main() {
 			supprimer_tache(&head);
 		} else if (choix == 5) {
 			filtrer_taches(head);
-		} else if (choix != 6) {
-			printf("Veillez Saiser Votre Operation\n");
+		} else if (choix == 6) {
+			ajouter_tache_fichier(head);
+			break;
+		} else {
+			continue;
 		}
 		
 	} while(choix != 6);
 		
 	return 0;
+	
 }
 
 
@@ -451,13 +526,6 @@ int main() {
     // on ajouter 1900 car tm_year reprsent annes depuis 1900
     // tm_year countr from 1900
 */
-
-
-
-// Custom the date condition & storage in file
-
-
-
 
 
 
