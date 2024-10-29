@@ -75,9 +75,9 @@ void remplacer_spaces(char *str) {
 }
 
 // Ajouter les informations dans un fichier
-void ajouter_tache_fichier(Liste *head) {
+void ajouter_taches_fichier(Liste *head) {
 
-	FILE *p_file = fopen("tache.txt", "a");
+	FILE *p_file = fopen("tache.txt", "w");
 	if (p_file == NULL) {
 		printf("Error d'ajouter a un fichier\n");
 		return;
@@ -172,7 +172,7 @@ Liste *cree_node() {
 		exit(1);
 	}
 	n_node->next = n_node->prev = NULL;
-	return NULL;
+	return n_node;
 	
 }
 
@@ -184,7 +184,7 @@ void ajouter_tache(Liste **head) {
 	
 	// Demande des information sur la tache
 	demander_info(n_node);
-	
+
 	// Ajouter node dans la liste
 	ajouter_liste(head, n_node);
 	
@@ -468,20 +468,21 @@ void  filtrer_taches(Liste *head) {
 
 // obtenir les tache a partir du fihier
 void obtenir_taches(Liste **head) {
-	printf("Je Suis Ici\n");
-	FILE *p_file = fopen("tache.txt", "a");
+	
+	FILE *p_file = fopen("tache.txt", "r");
 	if (p_file == NULL) {
 		printf("Error d'ouvrir le fichier\n");
 		return;
 	}
 	
-	printf("Je Suis Ici\n");
-	while (!feof(p_file)) {
+	while (1) {
 	
 		Liste *n_node = cree_node();
 
-		fscanf(p_file, "%s %s %s %s %d %d %d\n", n_node->data.titre, n_node->data.description,
+		int result = fscanf(p_file, "%s %s %s %s %d %d %d\n", n_node->data.titre, n_node->data.description,
 		   n_node->data.status, n_node->data.priorite, &n_node->data.date.jour, &n_node->data.date.mois, &n_node->data.date.annes);
+		
+		if (result != 7) break;
 		
 		ajouter_liste(head, n_node);
 		
@@ -500,9 +501,7 @@ int main() {
 	Liste *head = NULL;
 	
 	// obtenir les infomation sur les taches
-	printf("Je Suis Ici\n");
 	obtenir_taches(&head);
-	printf("Je La\n");
 	
 	int choix;
 	do {
@@ -521,7 +520,7 @@ int main() {
 		} else if (choix == 5) {
 			filtrer_taches(head);
 		} else if (choix == 6) {
-			ajouter_tache_fichier(head);
+			ajouter_taches_fichier(head);
 			break;
 		} else {
 			continue;
