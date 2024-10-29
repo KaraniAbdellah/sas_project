@@ -32,25 +32,7 @@ void menu() {
 
 
 // Affiches Les Taches
-void afficher_taches(Liste *head) {
-	
-	if (head == NULL) {
-		message(); return;
-	}
-	
-	Liste *temp = head;
-	printf("\n-------------------------\n");
-	while (temp != NULL) {
-		printf("titre: %s\n", temp->data.titre);
-		printf("description: %s\n", temp->data.description);
-		printf("status: %s\n", temp->data.status);
-		printf("priorite: %s\n", temp->data.priorite);
-		printf("Date: %d/%d/%d\n", temp->data.date.jour, temp->data	.date.mois, temp->data.date.annes);
-		printf("-------------------------\n");
-		temp = temp->next;
-	}
-	
-}
+
 
 
 // Ajouter Les Taches
