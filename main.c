@@ -98,18 +98,7 @@ void ajouter_tache(Liste **head) {
 }
 
 
-// Trouver la tache qui doit modifier_tache
-Liste* trouver_tache(Liste **head, int n_tache) {
-	
-	Liste *temp = *head;
-	int index = 1;
-	while (temp != NULL && index < n_tache) {
-		temp = temp->next;
-		index++;
-	}
-	if (temp == NULL) return NULL;
-	else return temp;
-}
+
 
 
 // Menu de modification
