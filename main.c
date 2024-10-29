@@ -53,49 +53,7 @@ void afficher_taches(Liste *head) {
 }
 
 
-// Ajouter Les Taches
-void ajouter_tache(Liste **head) {
-	
-	// cree un node dans la liste
-	Liste *n_node = (Liste *) malloc(sizeof(Liste));
-	if (n_node == NULL) {
-		printf("peut pas ajouter ce node\n");
-		return;
-	}
-	n_node->next = n_node->prev = NULL;
-	
-	printf("Enter le titre: ");
-	scanf("%[^\n]", n_node->data.titre);
-	getchar();
-	printf("Enter la description: ");
-	scanf("%[^\n]", n_node->data.description);
-	getchar();
-	printf("Enter le status: ");
-	scanf("%[^\n]", n_node->data.status);
-	getchar();
-	printf("Enter le priorite: ");
-	scanf("%[^\n]", n_node->data.priorite);
-	getchar();
-	printf("Enter la date (jour): ");
-	scanf("%d", &n_node->data.date.jour);
-	printf("Enter la date (moin): ");
-	scanf("%d", &n_node->data.date.mois);
-	printf("Enter la date (annes): ");
-	scanf("%d", &n_node->data.date.annes);
-	
-	if (*head == NULL) {
-		*head = n_node;
-		return;
-	}
-	
-	Liste *temp = *head;
-	while (temp->next != NULL) {
-		temp = temp->next;
-	}
-	n_node->prev = temp;
-	temp->next = n_node;
-	
-}
+
 
 
 // Trouver la tache qui doit modifier_tache
