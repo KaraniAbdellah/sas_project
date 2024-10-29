@@ -210,6 +210,85 @@ void supprimer_tache(Liste **head) {
 }									
 
 
+// filtrage des information par le nom
+void filtrage_titre(Liste *head) {
+	
+	char *titre = (char *) malloc(sizeof(char) * 20);
+	printf("Enter le titre");
+	scanf("%[^\n]s", titre); titre[19] = '\0';
+	
+	Liste *temp = head;
+	while(temp != NULL) {
+		if (strcmp(temp->titre, titre) == 0) {
+			printf("titre: %s\n", temp->data.titre);
+			printf("description: %s\n", temp->data.description);
+			printf("status: %s\n", temp->data.status);
+			printf("priorite: %s\n", temp->data.priorite);
+			printf("Date: %d/%d/%d\n", temp->data.date.jour, temp->data	.date.mois, temp->data.date.annes);
+			printf("-------------------------\n");
+		}
+		
+		temp = temp->next;
+	}
+	
+}
+
+// filtrage des information par le status
+void filtrage_status(Liste *head) {
+	
+	printf("Not Implemented yet\n");
+	
+}
+
+// filtrage des information par le priorite
+void filtrage_priorite(Liste *head) {
+	
+	printf("Not Implemented yet\n");
+	
+}
+
+// Menu de filtrage
+void menu_filtrage() {
+
+	printf("1. titre \n");
+	printf("2. status\n");
+	printf("3. priorite\n");
+	printf("4. Quitter Session de Filtrage\n");
+	
+}
+
+//  Filtrer les Taches
+void  filtrer_taches(Liste *head) {
+	
+	if (head == NULL) {
+		message(); return;
+	}
+	
+	int choix;
+	do {
+		menu_filtrage();
+		printf("Enter votre choix: ");
+		scanf("%d", &choix);
+		switch(choix) {
+			case 1: {
+				filtrage_titre(head);
+				break;
+			}
+			case 2: {
+				filtrage_status(head);
+				break;
+			}
+			case 3: {
+				filtrage_priorite(head);
+				break;
+			}
+			default: break;
+		}
+	} while(choix != 4);
+	
+}
+
+
 int main() {
 	
 	Liste *head = NULL;
@@ -228,28 +307,15 @@ int main() {
 		} else if (choix == 4) {
 			supprimer_tache(&head);
 		} else if (choix == 5) {
-			
+			filtrer_taches(head);
 		} else if (choix != 6) {
 			printf("Veillez Saiser Votre Operation\n");
 		}
 		
 	} while(choix != 6);
 		
-	
-	
 	return 0;
 }
-
-/*
-if (temp->next != NULL) {
-	prev = temp->next;
-	temp->next->prev = temp;
-}
-if (temp == *head) {
-	if (temp->next == NULL) *head = NULL;
-	else *head = temp->next;
-}
-*/
 
 
 
