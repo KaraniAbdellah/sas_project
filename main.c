@@ -16,6 +16,8 @@ void message() {
 	printf("\n-------------------------\n");
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 // Menu
 void menu() {
@@ -60,6 +62,8 @@ void afficher_taches(Liste *head) {
 	
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 // Remplacer les spaces d'un string
 void remplacer_spaces(char *str) {
@@ -69,7 +73,6 @@ void remplacer_spaces(char *str) {
 	}
 	
 }
-
 
 // Ajouter les informations dans un fichier
 void ajouter_tache_fichier(Liste *head) {
@@ -98,6 +101,9 @@ void ajouter_tache_fichier(Liste *head) {
 	fclose(p_file);
 	
 }
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 // demander des information
 void demander_info(Liste *n_node) {
@@ -166,6 +172,7 @@ Liste *cree_node() {
 		exit(1);
 	}
 	n_node->next = n_node->prev = NULL;
+	return NULL;
 	
 }
 
@@ -178,10 +185,13 @@ void ajouter_tache(Liste **head) {
 	// Demande des information sur la tache
 	demander_info(n_node);
 	
+	// Ajouter node dans la liste
 	ajouter_liste(head, n_node);
 	
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 // Trouver la tache qui doit modifier_tache
 Liste* trouver_tache(Liste **head, int n_tache) {
@@ -194,6 +204,7 @@ Liste* trouver_tache(Liste **head, int n_tache) {
 	}
 	if (temp == NULL) return NULL;
 	else return temp;
+	
 }
 
 
@@ -254,6 +265,8 @@ void modifier_tache(Liste **head) {
 		
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 // Supprimer une taches
 void supprimer_tache(Liste **head) {
@@ -293,6 +306,8 @@ void supprimer_tache(Liste **head) {
 	
 }									
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 // filtrage des information par le nom
 void filtrage_titre(Liste *head) {
@@ -448,21 +463,23 @@ void  filtrer_taches(Liste *head) {
 	
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 // obtenir les tache a partir du fihier
 void obtenir_taches(Liste **head) {
-	
+	printf("Je Suis Ici\n");
 	FILE *p_file = fopen("tache.txt", "a");
 	if (p_file == NULL) {
 		printf("Error d'ouvrir le fichier\n");
 		return;
 	}
-
+	
+	printf("Je Suis Ici\n");
 	while (!feof(p_file)) {
 	
-		Liste *n_node = (Liste *) malloc(sizeof(Liste));
-		n_node->next = n_node->prev = NULL;
-		
+		Liste *n_node = cree_node();
+
 		fscanf(p_file, "%s %s %s %s %d %d %d\n", n_node->data.titre, n_node->data.description,
 		   n_node->data.status, n_node->data.priorite, &n_node->data.date.jour, &n_node->data.date.mois, &n_node->data.date.annes);
 		
@@ -474,13 +491,18 @@ void obtenir_taches(Liste **head) {
 	
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
 
 int main() {
 	
 	Liste *head = NULL;
 	
 	// obtenir les infomation sur les taches
+	printf("Je Suis Ici\n");
 	obtenir_taches(&head);
+	printf("Je La\n");
 	
 	int choix;
 	do {
@@ -510,23 +532,6 @@ int main() {
 	return 0;
 	
 }
-
-
-
-
-
-
-// explination 
-/*
-	// gets the current time in seconds since January 1, 1970
-	time_t now = time(NULL);
-	// line converts the time_t value now into a tm structure
-    struct tm *t = localtime(&now);
-    int year = t->tm_year + 1900;
-    // on ajouter 1900 car tm_year reprsent annes depuis 1900
-    // tm_year countr from 1900
-*/
-
 
 
 
