@@ -589,54 +589,6 @@ void tri_tache(Liste **head) {
 	
 }
 
-/*
-Liste *p1 = *head;
-
-    while (p1 != NULL) {
-        Liste *p2 = p1->next;
-        while (p2 != NULL) {
-            if (p2->data.date.annes < p1->data.date.annes) {
-				changment(&p1, &p2);
-			} else if (p2->data.date.annes == p1->data.date.annes) {
-				if (p2->data.date.mois < p1->data.date.mois) {
-					changment(&p1, &p2);
-				} else if (p2->data.date.mois == p1->data.date.mois) {
-					if (p2->data.date.jour < p1->data.date.jour) {
-						changment(&p1, &p2);
-					}
-				}
-			}
-            p2 = p2->next;
-        }
-        p1 = p1->next;
-    }
-*/
-
-/*
-Liste *temp1 = *p1;
-    Liste *temp2 = *p2;
-
-    if (temp1->prev != NULL) {
-        temp1->prev->next = temp2;
-    }
-    if (temp2->next != NULL) {
-        temp2->next->prev = temp1;
-    }
-
-    temp1->next = temp2->next;
-    temp2->next = temp1;
-    
-    temp1->prev = temp2->prev;
-    temp2->prev = temp1;
-
-    if (temp1->prev != NULL) {
-        temp1->prev->next = temp1;
-    }
-    if (temp2->next != NULL) {
-        temp2->next->prev = temp2;
-    }
-*/
-
 
 
 
