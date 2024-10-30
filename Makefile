@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS= -Wall -Wextra
-FILIES=main.c
+FILIES=main.c tache.c
 EXEC=main
 
 

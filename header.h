@@ -27,11 +27,47 @@
 
 
 	// Les prototypes des fonctions
+	void obtenir_taches(Liste **head);
+	void message();
+	void menu();
+	void affiche_info(Liste *tache);
+	void afficher_taches(Liste *head);
+	
+	void remplacer_spaces(char *str);
+	void ajouter_taches_fichier(Liste *head);
+	void demander_info(Liste *n_node);
+	void ajouter_liste(Liste **head, Liste *n_node);
+	Liste *cree_node();
+	void ajouter_tache(Liste **head);
+	
+	Liste *trouver_tache(Liste **head, int n_tache);
+	void menu_modification();
+	void modifier_tache(Liste **head);
+	
+	void supprimer_tache(Liste **head);
+	
+	void filtrage_titre(Liste *head);
+	void filtrage_status(Liste *head);
+	void filtrage_priorite(Liste *head);
+	void filtrage_date(Liste *head);
+	void menu_filtrage();
+	void filtrer_taches(Liste *head);
+	
+	void tri_tache(Liste **head);
+	void tri_tache_croissant(Liste **head);
+	void tri_tache_croissant(Liste **head);
 	
 	
-
 
 
 
 #endif
+
+
+
+
+
+
+
+
 
