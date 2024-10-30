@@ -1,5 +1,9 @@
 # Task Management
 
+
+## Images
+<img src="images/img.png">
+
 ## Description
 This project is a task management application that allows users to add, edit, display, and delete tasks.
 Task information is stored in a text file.
