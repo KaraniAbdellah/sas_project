@@ -3,4 +3,9 @@
 	pour que le contenu du fichier ne soit inclus qu'une seule fois.
 
 
+# Makefile
+	Un Makefile en C est un fichier texte qui contient des instructions pour
+	compiler un programme. Il automatise la création des fichiers
+	exécutables à partir du code source.
+
 
