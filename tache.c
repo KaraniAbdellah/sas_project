@@ -76,46 +76,6 @@ void afficher_taches(Liste *head) {
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-// Remplacer les spaces d'un string
-void remplacer_spaces(char *str) {
-	
-	for (int i = 0; str[i] != '\0'; i++) {
-		if (str[i] == ' ') str[i] = '_';
-	}
-	
-}
-
-// Ajouter les informations dans un fichier
-void ajouter_taches_fichier(Liste *head) {
-
-	FILE *p_file = fopen("tache.txt", "w");
-	if (p_file == NULL) {
-		printf("Error d'ajouter a un fichier\n");
-		return;
-	}
-
-	Liste *temp = head;
-	while (temp != NULL) {
-		
-		remplacer_spaces(temp->data.titre);
-		remplacer_spaces(temp->data.description);
-		remplacer_spaces(temp->data.status);
-		remplacer_spaces(temp->data.priorite);
-		
-		fprintf(p_file, "%s %s %s %s %d %d %d\n", temp->data.titre, temp->data.description,
-		   temp->data.status, temp->data.priorite, temp->data.date.jour, temp->data.date.mois, temp->data.date.annes);
-	
-		temp = temp->next;		
-		
-	}	
-
-	fclose(p_file);
-	
-}
-
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-
 // demander des information
 void demander_info(Liste *n_node) {
 
@@ -123,20 +83,22 @@ void demander_info(Liste *n_node) {
 	scanf("%[^\n]", n_node->data.titre); n_node->data.titre[19] = '\0';
 	getchar();
 	printf("Enter la description: ");
-	scanf("%[^\n]", n_node->data.description); n_node->data.description[19] = '\0';
-	getchar();
-	printf("Enter le status: ");
-	scanf("%[^\n]", n_node->data.status); n_node->data.status[19] = '\0';
-	getchar();
-	printf("Enter le priorite: ");
-	scanf("%[^\n]", n_node->data.priorite); n_node->data.priorite[19] = '\0';
+	scanf("%[^\n]", n_node->data.description); n_node->data.description[199] = '\0';
 	getchar();
 	
-	// obtenu actual year
-	time_t now = time(NULL);
-    struct tm *t = localtime(&now);
-	int annes = t->tm_year + 1900;
-    int mois = t->tm_mon + 1;
+	do {
+		printf("Enter le status (low/high): ");
+		scanf("%[^\n]", n_node->data.status);
+		n_node->data.status[19] = '\0';
+		getchar();
+	} while(strcmp(n_node->data.status, "low") != 0 && strcmp(n_node->data.status, "high") != 0);
+	
+	do {
+		printf("Enter le priorite (complet/incomplet): ");
+		scanf("%[^\n]", n_node->data.priorite);
+		n_node->data.priorite[19] = '\0';
+		getchar();
+	} while(strcmp(n_node->data.priorite, "complet") != 0 && strcmp(n_node->data.priorite, "incomplet") != 0);
 	
 	do {
 		printf("Enter la date (jour): ");
@@ -146,12 +108,16 @@ void demander_info(Liste *n_node) {
 	do {
 		printf("Enter la date (moin): ");
 		scanf("%d", &n_node->data.date.mois);
-	} while (n_node->data.date.mois < mois || n_node->data.date.mois > 12);
+	} while (n_node->data.date.mois < 0 || n_node->data.date.mois > 12);
+    
+	time_t now = time(NULL); // get the nbr of second since 1 Jan 1970
+    struct tm *t = localtime(&now); // localtime return addrese of struct
+	int annes = t->tm_year + 1900; // get the actual year
     
 	do {
 		printf("Enter la date (annes): ");
 		scanf("%d", &n_node->data.date.annes);
-	} while (n_node->data.date.annes < annes);
+	} while (n_node->data.date.annes < 0 || n_node->data.date.annes < annes);
 	
 
 }
@@ -476,6 +442,41 @@ void filtrer_taches(Liste *head) {
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
+// Remplacer les spaces d'un string
+void remplacer_spaces(char *str) {
+	
+	for (int i = 0; str[i] != '\0'; i++) {
+		if (str[i] == ' ') str[i] = '_';
+	}
+	
+}
+
+// Ajouter les informations dans un fichier
+void ajouter_taches_fichier(Liste *head) {
+
+	FILE *p_file = fopen("tache.txt", "w");
+	if (p_file == NULL) {
+		printf("Error d'ajouter a un fichier\n");
+		return;
+	}
+
+	Liste *temp = head;
+	while (temp != NULL) {
+		
+		// remplacer_spaces(temp->data.titre);
+		// remplacer_spaces(temp->data.description);
+		
+		fprintf(p_file, "titre: %s\ndescription: %s\nstatus: %s\npriorite: %s\ndate: %d:%d:%d\n\n", temp->data.titre, temp->data.description,
+		   temp->data.status, temp->data.priorite, temp->data.date.jour, temp->data.date.mois, temp->data.date.annes);
+	
+		temp = temp->next;		
+		
+	}	
+
+	fclose(p_file);
+	
+}
+
 // obtenir les tache a partir du fihier
 void obtenir_taches(Liste **head) {
 	
@@ -489,8 +490,9 @@ void obtenir_taches(Liste **head) {
 	
 		Liste *n_node = cree_node();
 
-		int result = fscanf(p_file, "%s %s %s %s %d %d %d\n", n_node->data.titre, n_node->data.description,
-		   n_node->data.status, n_node->data.priorite, &n_node->data.date.jour, &n_node->data.date.mois, &n_node->data.date.annes);
+		int result = fscanf(p_file, "titre: %s\ndescription: %s\nstatus: %s\npriorite: %s\ndate: %d:%d:%d\n\n", 
+			n_node->data.titre, n_node->data.description, n_node->data.status, n_node->data.priorite,
+			&n_node->data.date.jour, &n_node->data.date.mois, &n_node->data.date.annes);
 		
 		if (result != 7) break;
 		
@@ -592,6 +594,19 @@ void tri_tache(Liste **head) {
 
 
 
+/*
+	custom the storage in file
+	revise the code complete
+	make skecth for presentation
+*/
+
+
+
+
+
+/* 
+	For the year: https://pubs.opengroup.org/onlinepubs/7908799/xsh/time.h.html
+*/
 
 
 
