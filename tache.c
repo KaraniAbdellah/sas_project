@@ -106,7 +106,7 @@ void demander_info(Liste *n_node) {
 	
 	do {
 		check = saisir_et_verifier_chaine("Enter le priorite (low/high): ",
-		n_node->data.status, "low", "high");
+		n_node->data.priorite, "low", "high");
 	} while(check == 0);
 	
 	do {
@@ -495,7 +495,7 @@ void ajouter_taches_fichier(Liste *head) {
 
 	FILE *p_file = fopen("tache.txt", "w");
 	if (p_file == NULL) {
-		printf("Error d'ajouter a un fichier\n");
+		printf("Error d'ouvrir a un fichier\n");
 		return;
 	}
 
@@ -507,10 +507,10 @@ void ajouter_taches_fichier(Liste *head) {
 		
 		fprintf(p_file, "titre: %s\ndescription: %s\npriorite: %s\nstatus: %s\ndate: %d:%d:%d\n\n", temp->data.titre, temp->data.description,
 		   temp->data.status, temp->data.priorite, temp->data.date.jour, temp->data.date.mois, temp->data.date.annes);
-	
-		temp = temp->next;		
+
+		temp = temp->next;
 		
-	}	
+	}
 
 	fclose(p_file);
 	
@@ -634,11 +634,6 @@ void tri_tache(Liste **head) {
 }
 
 
-
-// custom the file function
-// revise all code
-// prepare the skitch
-// Start new things
 
 
 
