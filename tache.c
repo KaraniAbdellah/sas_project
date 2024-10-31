@@ -13,7 +13,7 @@
 /* By: Abdellah Karani                  ::::::::  ::   ::  ::  :+:+:+:+:+:	 :+:+:+:+:+:		*/ 
 /*                                      :+:       ::    :: ::  ::		::	 ::		  ::		*/ 
 /* Started: 2024/10/28          		:+:       ::     ::::  ::		::	 ::		  ::		*/ 
-/* Finiched: 2024/10/30           		::::::::  ::  	   ::  ::		::	 ::		  ::		*/
+/* Finiched: 2024/10/31          		::::::::  ::  	   ::  ::		::	 ::		  ::		*/
 /*           	                                                                       			*/ 
 /* **********************************************************************************************/
 
@@ -76,6 +76,17 @@ void afficher_taches(Liste *head) {
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
+// Verfier la chaine qui lit par utilisateur
+int saisir_et_verifier_chaine(char *message, char *resultat, char *option1, char *option2) {
+    printf("%s", message);
+    scanf("%19[^\n]", resultat);
+    getchar();
+    if (strcmp(resultat, option1) != 0 && strcmp(resultat, option2) != 0) {
+        return 0;
+    }
+    return 1;
+}
+
 // demander des information
 void demander_info(Liste *n_node) {
 
@@ -86,19 +97,17 @@ void demander_info(Liste *n_node) {
 	scanf("%[^\n]", n_node->data.description); n_node->data.description[199] = '\0';
 	getchar();
 	
-	do {
-		printf("Enter le status (low/high): ");
-		scanf("%[^\n]", n_node->data.status);
-		n_node->data.status[19] = '\0';
-		getchar();
-	} while(strcmp(n_node->data.status, "low") != 0 && strcmp(n_node->data.status, "high") != 0);
+	int check;
 	
 	do {
-		printf("Enter le priorite (complet/incomplet): ");
-		scanf("%[^\n]", n_node->data.priorite);
-		n_node->data.priorite[19] = '\0';
-		getchar();
-	} while(strcmp(n_node->data.priorite, "complet") != 0 && strcmp(n_node->data.priorite, "incomplet") != 0);
+		check = saisir_et_verifier_chaine("Enter status (complet/incomplet): ",
+		n_node->data.status, "incomplet", "complet");
+	} while(check == 0);
+	
+	do {
+		check = saisir_et_verifier_chaine("Enter le priorite (low/high): ",
+		n_node->data.status, "low", "high");
+	} while(check == 0);
 	
 	do {
 		printf("Enter la date (jour): ");
@@ -122,6 +131,18 @@ void demander_info(Liste *n_node) {
 
 }
 
+// Cree une node dans la liste
+Liste *cree_node() {
+
+	Liste *n_node = (Liste *) malloc(sizeof(Liste));
+	if (n_node == NULL) {
+		printf("peut pas ajouter ce node\n");
+		exit(1);
+	}
+	n_node->next = NULL;
+	return n_node;
+	
+}
 
 // Ajouter Dans La Liste
 void ajouter_liste(Liste **head, Liste *n_node) {
@@ -133,22 +154,8 @@ void ajouter_liste(Liste **head, Liste *n_node) {
 		while (temp->next != NULL) {
 			temp = temp->next;
 		}
-		n_node->prev = temp;
 		temp->next = n_node;
 	}
-	
-}
-
-// Cree une node dans la liste
-Liste *cree_node() {
-
-	Liste *n_node = (Liste *) malloc(sizeof(Liste));
-	if (n_node == NULL) {
-		printf("peut pas ajouter ce node\n");
-		exit(1);
-	}
-	n_node->next = n_node->prev = NULL;
-	return n_node;
 	
 }
 
@@ -194,7 +201,6 @@ void menu_modification() {
 	printf("6. Quitter Session de modification\n");
 }
 
-
 // Modifier les taches
 void modifier_tache(Liste **head) {
 	
@@ -212,29 +218,55 @@ void modifier_tache(Liste **head) {
 		message(); return;
 	}
 	
-	int choix_mod;
+	int choix_mod, check;
 	do {
 		menu_modification();
 		printf("Veillez enterez le champ de modification: ");
 		scanf("%d", &choix_mod);
 		getchar();
+		
 		if (choix_mod == 1) {
 			printf("Enter neuveau titre de tache: ");
 			scanf("%[^\n]", tache_modfier->data.titre);
-		} else if (choix_mod == 2) {
+		} 
+		else if (choix_mod == 2) {
 			printf("Enter neuveau description de tache: ");
 			scanf("%[^\n]", tache_modfier->data.description);
-		} else if (choix_mod == 3) {
-			printf("Enter neuveau status de tache: ");
-			scanf("%[^\n]", tache_modfier->data.status);
-		} else if (choix_mod == 4) {
-			printf("Enter neuveau titre de tache: ");
-			scanf("%[^\n]", tache_modfier->data.priorite);
-		} else if (choix_mod == 5) {
-			printf("Enterz le neuveau jour: "); scanf("%d", &tache_modfier->data.date.jour);
-			printf("Enterz le neuveau moin: "); scanf("%d", &tache_modfier->data.date.mois);
-			printf("Enterz le neuveau annes: "); scanf("%d", &tache_modfier->data.date.annes);
-		} else {
+		} 
+		else if (choix_mod == 3) {
+			do {
+				check = saisir_et_verifier_chaine("Enter neuveau status (complet/incomplet): ",
+				tache_modfier->data.status, "incomplet", "complet");
+			} while(check == 0);
+		} 
+		else if (choix_mod == 4) {
+			do {
+				check = saisir_et_verifier_chaine("Enter neuveau priorite (low/hight): ",
+				tache_modfier->data.priorite, "incomplet", "complet");
+			} while(check == 0);
+		} 
+		else if (choix_mod == 5) {
+			do {
+				printf("Enterz le neuveau jour: ");
+				scanf("%d", &tache_modfier->data.date.jour);
+			} while (tache_modfier->data.date.jour < 0 || tache_modfier->data.date.jour > 31);
+			
+			do {
+				printf("Enterz le neuveau moin: ");
+				scanf("%d", &tache_modfier->data.date.mois);
+			} while (tache_modfier->data.date.mois < 0 || tache_modfier->data.date.mois > 12);
+			
+			time_t now = time(NULL);
+			struct tm *t = localtime(&now);
+			int annes = t->tm_year + 1900;
+			
+			do {
+				printf("Enterz le neuveau annes: ");
+				scanf("%d", &tache_modfier->data.date.annes);
+			} while (tache_modfier->data.date.annes < 0 || tache_modfier->data.date.annes < annes);
+			
+		} 
+		else {
 			continue;
 		}
 	} while(choix_mod != 6);
@@ -260,12 +292,10 @@ void supprimer_tache(Liste **head) {
 	int index = 1;
 	while (temp != NULL) { 
 		if (index == n_tache) {
-			if (temp != *head) {
-				prev->next = temp->next;
-				if (temp->next != NULL) temp->next->prev = prev;
-			} else {
+			if (temp == *head) {
 				*head = temp->next;
-				if (temp->next != NULL) temp->next->prev = NULL;
+			} else {
+				prev->next = temp->next;
 			}
 			free(temp);
 			printf("✅ Tache bien supprimer\n");
@@ -451,6 +481,15 @@ void remplacer_spaces(char *str) {
 	
 }
 
+// Remplacer les underscores d'un string 
+void remplacer_underscore(char *str) {
+	
+	for (int i = 0; str[i] != '\0'; i++) {
+		if (str[i] == '_') str[i] = ' ';
+	}
+	
+}
+
 // Ajouter les informations dans un fichier
 void ajouter_taches_fichier(Liste *head) {
 
@@ -463,10 +502,10 @@ void ajouter_taches_fichier(Liste *head) {
 	Liste *temp = head;
 	while (temp != NULL) {
 		
-		// remplacer_spaces(temp->data.titre);
-		// remplacer_spaces(temp->data.description);
+		remplacer_spaces(temp->data.titre);
+		remplacer_spaces(temp->data.description);
 		
-		fprintf(p_file, "titre: %s\ndescription: %s\nstatus: %s\npriorite: %s\ndate: %d:%d:%d\n\n", temp->data.titre, temp->data.description,
+		fprintf(p_file, "titre: %s\ndescription: %s\npriorite: %s\nstatus: %s\ndate: %d:%d:%d\n\n", temp->data.titre, temp->data.description,
 		   temp->data.status, temp->data.priorite, temp->data.date.jour, temp->data.date.mois, temp->data.date.annes);
 	
 		temp = temp->next;		
@@ -490,10 +529,13 @@ void obtenir_taches(Liste **head) {
 	
 		Liste *n_node = cree_node();
 
-		int result = fscanf(p_file, "titre: %s\ndescription: %s\nstatus: %s\npriorite: %s\ndate: %d:%d:%d\n\n", 
+		int result = fscanf(p_file, "titre: %s\ndescription: %s\npriorite: %s\nstatus: %s\ndate: %d:%d:%d\n\n", 
 			n_node->data.titre, n_node->data.description, n_node->data.status, n_node->data.priorite,
 			&n_node->data.date.jour, &n_node->data.date.mois, &n_node->data.date.annes);
-		
+
+		remplacer_underscore(n_node->data.description);
+		remplacer_underscore(n_node->data.titre);
+				
 		if (result != 7) break;
 		
 		ajouter_liste(head, n_node);
@@ -593,20 +635,13 @@ void tri_tache(Liste **head) {
 
 
 
-
-/*
-	custom the storage in file
-	revise the code complete
-	make skecth for presentation
-*/
+// custom the file function
+// revise all code
+// prepare the skitch
+// Start new things
 
 
 
-
-
-/* 
-	For the year: https://pubs.opengroup.org/onlinepubs/7908799/xsh/time.h.html
-*/
 
 
 

@@ -35,20 +35,22 @@
 	typedef struct Liste {
 		Tache data;
 		struct Liste* next;
-		struct Liste* prev;
 	} Liste;
 	
 
 
 	// Les prototypes des fonctions
-	void obtenir_taches(Liste **head);
 	void message();
 	void menu();
 	void affiche_info(Liste *tache);
 	void afficher_taches(Liste *head);
+	int saisir_et_verifier_chaine(char *message, char *resultat, char *option1, char *option2);
 	
 	void remplacer_spaces(char *str);
+	void remplacer_underscore(char *str);
+	void obtenir_taches(Liste **head);
 	void ajouter_taches_fichier(Liste *head);
+	
 	void demander_info(Liste *n_node);
 	void ajouter_liste(Liste **head, Liste *n_node);
 	Liste *cree_node();
@@ -71,13 +73,10 @@
 	void tri_tache_croissant(Liste **head);
 	void tri_tache_croissant(Liste **head);
 	
-	
 
 
 
 #endif
-
-
 
 
 

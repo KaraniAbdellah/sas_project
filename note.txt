@@ -1,0 +1,6 @@
+#define & #endif
+	Les directives #ifndef, #define, et #endif créent une "protection"
+	pour que le contenu du fichier ne soit inclus qu'une seule fois.
+
+
+
