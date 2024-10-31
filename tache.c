@@ -270,6 +270,8 @@ void modifier_tache(Liste **head) {
 			continue;
 		}
 	} while(choix_mod != 6);
+	
+	printf("✅ Tache bien modifier\n");
 		
 }
 
@@ -325,6 +327,8 @@ void filtrage_titre(Liste *head) {
 	Liste *temp = head;
 	int check = 0;
 	printf("-------------------------\n");
+	printf("Les taches filtrer par le titre: \n");
+	printf("-------------------------\n");
 	while(temp != NULL) {
 		if (strcmp(temp->data.titre, titre) == 0) {
 			check = 1;
@@ -350,8 +354,11 @@ void filtrage_status(Liste *head) {
 	Liste *temp = head;
 	int check = 0;
 	printf("-------------------------\n");
+	printf("Les taches filtrer par le status: \n");
+	printf("-------------------------\n");
 	while(temp != NULL) {
 		if (strcmp(temp->data.status, status) == 0) {
+			check = 1;
 			affiche_info(temp);
 		}
 		temp = temp->next;
@@ -374,6 +381,8 @@ void filtrage_priorite(Liste *head) {
 	
 	Liste *temp = head;
 	int check = 0;
+	printf("-------------------------\n");
+	printf("Les taches filtrer par le priorite: \n");
 	printf("-------------------------\n");
 	while(temp != NULL) {
 		if (strcmp(temp->data.priorite, priorite) == 0) {
@@ -405,6 +414,8 @@ void filtrage_date(Liste *head) {
 	
 	Liste *temp = head;
 	int check = 0;
+	printf("-------------------------\n");
+	printf("Les taches filtrer par la date: \n");
 	printf("-------------------------\n");
 	while(temp != NULL) {
 		if (temp->data.date.jour == jour && temp->data.date.mois == mois && temp->data.date.annes == annes) {
