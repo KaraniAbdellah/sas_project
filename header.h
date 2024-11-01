@@ -15,6 +15,15 @@
 #ifndef TASK
 #define TASK
 
+	// Coleurs
+	#define RED "\033[1;31m"
+	#define GREEN "\033[1;32m"
+	#define WARNING "\033[1;33m"
+	#define RESET "\033[0m"
+	#define MENU_COLOR "\033[1;36m"
+	#define GRAY "\033[1;90m"
+	#define BLUE "\033[1;34m"
+
 
 	// Les definitions des structures
 	

@@ -9,3 +9,13 @@
 	exécutables à partir du code source.
 
 
+# Constance & Define
+	Une constante (const) est liee a un type, donc verifiee par le compilateur.
+	Avec #define, on crée une macro sans type qui remplace chaque occurrence
+		du nom par sa valeur au moment de la compilation
+	
+
+# printf(GREEN "\n✅ Tache bien tries\n" RESET);
+	Ce code affiche le texte "✅ Tache bien triée" en vert grâce à GREEN.
+	RESET remet la couleur à la normale après l'affichage.
+

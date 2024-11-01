@@ -21,9 +21,9 @@
 
 // Message
 void message() {
-	printf("\n-------------------------\n");
-	printf("Aucun Tache");
-	printf("\n-------------------------\n");
+	printf(RED "\n-------------------------\n");
+	printf(RED "Aucun Tache");
+	printf("\n-------------------------\n" RESET);
 }
 
 ////////////////////////////////////////////////////////////
@@ -31,8 +31,8 @@ void message() {
 
 // Menu
 void menu() {
-
-	printf("\n========================== MENU ==========================\n\n");
+	
+	printf(MENU_COLOR "\n========================== MENU ==========================\n\n" RESET);
 	printf("1. 📜  Ajouter une Tache\n");
 	printf("2. 📋  Afficher des Taches\n");
 	printf("3. 🖊️  Modifier une Tache\n");
@@ -52,7 +52,7 @@ void affiche_info(Liste *tache) {
 	printf("status: %s\n", tache->data.status);
 	printf("priorite: %s\n", tache->data.priorite);
 	printf("Date: %d/%d/%d\n", tache->data.date.jour, tache->data.date.mois, tache->data.date.annes);
-	printf("-------------------------\n");
+	printf(BLUE "-------------------------\n" RESET);
 	
 }
 
@@ -65,7 +65,7 @@ void afficher_taches(Liste *head) {
 	}
 	
 	Liste *temp = head;
-	printf("\n-------------------------\n");
+	printf(BLUE "\n-------------------------\n" RESET);
 	while (temp != NULL) {
 		affiche_info(temp);
 		temp = temp->next;
@@ -271,7 +271,7 @@ void modifier_tache(Liste **head) {
 		}
 	} while(choix_mod != 6);
 	
-	printf("✅ Tache bien modifier\n");
+	printf(GREEN "\n✅ Tache bien modifier\n" RESET);
 		
 }
 
@@ -300,7 +300,7 @@ void supprimer_tache(Liste **head) {
 				prev->next = temp->next;
 			}
 			free(temp);
-			printf("✅ Tache bien supprimer\n");
+			printf(GREEN "\n✅ Tache bien supprimer\n" RESET);
 			return;
 		}
 		prev = temp;
@@ -326,9 +326,9 @@ void filtrage_titre(Liste *head) {
 	
 	Liste *temp = head;
 	int check = 0;
-	printf("-------------------------\n");
+	printf(BLUE "-------------------------\n");
 	printf("Les taches filtrer par le titre: \n");
-	printf("-------------------------\n");
+	printf("-------------------------\n" RESET);
 	while(temp != NULL) {
 		if (strcmp(temp->data.titre, titre) == 0) {
 			check = 1;
@@ -353,9 +353,9 @@ void filtrage_status(Liste *head) {
 	
 	Liste *temp = head;
 	int check = 0;
-	printf("-------------------------\n");
+	printf(BLUE "-------------------------\n");
 	printf("Les taches filtrer par le status: \n");
-	printf("-------------------------\n");
+	printf("-------------------------\n" RESET);
 	while(temp != NULL) {
 		if (strcmp(temp->data.status, status) == 0) {
 			check = 1;
@@ -381,9 +381,9 @@ void filtrage_priorite(Liste *head) {
 	
 	Liste *temp = head;
 	int check = 0;
-	printf("-------------------------\n");
+	printf(BLUE "-------------------------\n");
 	printf("Les taches filtrer par le priorite: \n");
-	printf("-------------------------\n");
+	printf("-------------------------\n" RESET);
 	while(temp != NULL) {
 		if (strcmp(temp->data.priorite, priorite) == 0) {
 			check = 1;
@@ -414,9 +414,9 @@ void filtrage_date(Liste *head) {
 	
 	Liste *temp = head;
 	int check = 0;
-	printf("-------------------------\n");
+	printf(BLUE "-------------------------\n");
 	printf("Les taches filtrer par la date: \n");
-	printf("-------------------------\n");
+	printf("-------------------------\n" RESET);
 	while(temp != NULL) {
 		if (temp->data.date.jour == jour && temp->data.date.mois == mois && temp->data.date.annes == annes) {
 			check = 1;
@@ -539,7 +539,7 @@ void obtenir_taches(Liste **head) {
 	while (1) {
 	
 		Liste *n_node = cree_node();
-
+		
 		int result = fscanf(p_file, "titre: %s\ndescription: %s\npriorite: %s\nstatus: %s\ndate: %d:%d:%d\n\n", 
 			n_node->data.titre, n_node->data.description, n_node->data.status, n_node->data.priorite,
 			&n_node->data.date.jour, &n_node->data.date.mois, &n_node->data.date.annes);
@@ -641,6 +641,7 @@ void tri_tache(Liste **head) {
 	} else {
 		tri_tache_decroissant(head);
 	}
+	printf(GREEN "\n✅ Tache bien tries\n" RESET);
 	
 }
 

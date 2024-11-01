@@ -23,7 +23,7 @@ int main() {
 	
 	Liste *head = NULL;
 	
-	// obtenir les infomation sur les taches
+	// obtenir les taches a travers le fichier
 	obtenir_taches(&head);
 	
 	int choix;
