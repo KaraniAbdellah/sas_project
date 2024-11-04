@@ -190,7 +190,6 @@ Liste* trouver_tache(Liste **head, int n_tache) {
 	
 }
 
-
 // Menu de modification
 void menu_modification() {
 	printf("1. titre \n");
@@ -222,7 +221,7 @@ void modifier_tache(Liste **head) {
 	do {
 		menu_modification();
 		printf("Veillez enterez le champ de modification: ");
-		scanf("%d", &choix_mod);
+		scanf("%d", &choix_mod); // new line
 		getchar();
 		
 		if (choix_mod == 1) {

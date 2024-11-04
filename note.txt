@@ -19,3 +19,14 @@
 	Ce code affiche le texte "✅ Tache bien triée" en vert grâce à GREEN.
 	RESET remet la couleur à la normale après l'affichage.
 
+
+# CFALGS
+	Utiliser CFLAGS rend le code plus propre et personnalisable lors de la compilation.
+
+
+
+
+
+
+
+
