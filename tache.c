@@ -651,3 +651,23 @@ void tri_tache(Liste **head) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
